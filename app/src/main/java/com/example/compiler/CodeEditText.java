@@ -168,6 +168,9 @@ public class CodeEditText extends AppCompatEditText {
         this.mLineBounds = new Rect();
         this.mScale = context.getResources().getDisplayMetrics().density;
         this.mPadding = (int) (((float) this.mPaddingDP) * this.mScale);
+
+
+
         setTabWidth(2);
         setHorizontallyScrolling(false);
         setBackgroundColor(getResources().getColor(R.color.ch_background));

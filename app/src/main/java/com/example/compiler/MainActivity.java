@@ -185,9 +185,8 @@ public class MainActivity extends AppCompatActivity implements AccessoryView.IAc
         dropdown.setOnItemSelectedListener((parent, view, position, id) -> {
             SpannableString ss = new HighLightCode().setHighLight(CompilerConstant.GetLanguage(items[position]), items[position], cn);
             editText.setText(ss);
+            Toast.makeText(cn, "Selected", Toast.LENGTH_SHORT).show();
             editText.setSelection(editText.getCleanText().length());
-
-
             language = items[position];
         });
 
@@ -196,14 +195,19 @@ public class MainActivity extends AppCompatActivity implements AccessoryView.IAc
     private void NetworkCall() {
 
 
-        if (language.equals("C")) {
-            language_id = "4";
-        } else if (language.equals("C++")) {
-            language_id = "10";
-        } else if (language.equals("Java")) {
-            language_id = "28";
-        } else {
-            language_id = "34";
+        switch (language) {
+            case "C":
+                language_id = "4";
+                break;
+            case "C++":
+                language_id = "10";
+                break;
+            case "Java":
+                language_id = "28";
+                break;
+            default:
+                language_id = "34";
+                break;
         }
 
         Thread thread = new Thread(() -> {
@@ -235,12 +239,14 @@ public class MainActivity extends AppCompatActivity implements AccessoryView.IAc
                         HttpResponse response = httpclient.execute(httppost);
                         String responseBody = EntityUtils.toString(response.getEntity());
                         Log.d("myapp", "response " + responseBody);
-
                         JSONObject jdata = new JSONObject(responseBody);
-
                         if (!jdata.get("stdout").equals("") && !jdata.get("stdout").equals("null")&&!jdata.get("stdout").equals(null)) {
                             ShowOutPut(jdata.get("stdout").toString());
-                        } else {
+                        }else if (!jdata.get("stderr").equals("") && !jdata.get("stderr").equals("null")&&!jdata.get("stderr").equals(null)) {
+                            SpannableString spannableString = new SpannableString(jdata.get("stderr").toString());
+                            spannableString.setSpan(new ForegroundColorSpan(Color.RED),0,(jdata.get("stderr").toString().length()-1), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            ShowOutPut(spannableString.toString());
+                        }else{
                             ShowOutPut(responseBody.toString());
                         }
 
@@ -272,9 +278,8 @@ public class MainActivity extends AppCompatActivity implements AccessoryView.IAc
         SpannableString ss = new HighLightCode().setHighLight(CompilerConstant.GetLanguage("C"), "C", cn);
         editText.setText(ss);
 
-        int po = editText.getSelectionEnd();//get cursor
-        editText.setSelection(editText.getCleanText().length());
 
+        editText.setSelection(editText.getCleanText().length());
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence cs, int start, int count, int after) {
@@ -293,15 +298,17 @@ public class MainActivity extends AppCompatActivity implements AccessoryView.IAc
                 String str = editText.getText().toString();
 
 
-                SpannableString ss = new HighLightCode().setHighLight(str, "Java", cn);
+                Log.d("IDE", "afterTextChanged: "+language);
+                int po = editText.getSelectionStart();
+                SpannableString ss = new HighLightCode().setHighLight(str, language, cn);
                 editText.setText(ss);
 
-                int po = editText.getSelectionStart();//get cursor
+        //get cursor
                 editText.setSelection(po);//set cursor
                 editText.addTextChangedListener(this);
 
 
-                editText.removeTextChangedListener(this);
+
 
 
             }
