@@ -1,0 +1,68 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="SpinnerwithNoArrow" parent="@android:style/Widget.Spinner">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+
+    <style name="TextViewLineNumber">
+
+        <item name="android:textSize">15.0sp</item>
+
+        <item name="android:padding">1.0dip</item>
+
+        <item name="android:layout_marginTop">2.0dip</item>
+
+        <item name="android:layout_marginRight">2.0dip</item>
+
+        <item name="android:inputType">textMultiLine</item>
+
+    </style>
+
+    <style name="EditTextDcoderEditor">
+
+    <item name="android:textSize">15.0sp</item>
+
+    <item name="android:paddingLeft">1.0dip</item>
+
+    <item name="android:paddingTop">1.0dip</item>
+
+    <item name="android:paddingRight">10.0dip</item>
+
+    <item name="android:paddingBottom">1.0dip</item>
+
+    <item name="android:focusable">true</item>
+
+    <item name="android:focusableInTouchMode">true</item>
+
+    <item name="android:layout_marginTop">2.0dip</item>
+
+    <item name="android:selectAllOnFocus">false</item>
+
+    <item name="android:inputType">textMultiLine|textNoSuggestions</item>
+
+    <item name="android:isScrollContainer">true</item>
+
+    <item name="android:imeOptions">flagNoExtractUi</item>
+
+</style>
+
+
+    <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="colorControlActivated">@color/colorWhite</item>
+        <item name="colorAccent">@color/colorWhite</item>
+        <item name="colorControlHighlight">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+</resources>

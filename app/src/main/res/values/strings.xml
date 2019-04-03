@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Compiler</string>
+    <string name="err_network">NetWork Error</string>
+</resources>
