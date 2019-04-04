@@ -193,8 +193,6 @@ public class MainActivity extends AppCompatActivity implements AccessoryView.IAc
     }
 
     private void NetworkCall() {
-
-
         switch (language) {
             case "C":
                 language_id = "4";
@@ -217,15 +215,11 @@ public class MainActivity extends AppCompatActivity implements AccessoryView.IAc
                 String code = editText.getCleanText();
                 String url = "https://api.judge0.com/submissions?wait=true";
                 HttpClient httpclient = new DefaultHttpClient();
-
                 HttpPost httppost = new HttpPost(url);
-
                 httppost.addHeader("Content-Type", "application/x-www-form-urlencoded");
                 httppost.addHeader("Accept", "*/*");
                 httppost.addHeader("X-Auth-Token", "f6583e60-b13b-4228-b554-2eb332ca64e7");
 
-
-                // Add your data
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
                 nameValuePairs.add(new BasicNameValuePair("source_code", code));
                 nameValuePairs.add(new BasicNameValuePair("language_id", language_id));
@@ -233,21 +227,43 @@ public class MainActivity extends AppCompatActivity implements AccessoryView.IAc
 
                 try {
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-                    Log.d("myapp", "works till here. 2");
                     try {
                         HttpResponse response = httpclient.execute(httppost);
                         String responseBody = EntityUtils.toString(response.getEntity());
+
                         Log.d("myapp", "response " + responseBody);
+                        Log.d("myapp", "language_id " + language_id);
+
+
                         JSONObject jdata = new JSONObject(responseBody);
-                        if (!jdata.get("stdout").equals("") && !jdata.get("stdout").equals("null")&&!jdata.get("stdout").equals(null)) {
-                            ShowOutPut(jdata.get("stdout").toString());
-                        }else if (!jdata.get("stderr").equals("") && !jdata.get("stderr").equals("null")&&!jdata.get("stderr").equals(null)) {
-                            SpannableString spannableString = new SpannableString(jdata.get("stderr").toString());
-                            spannableString.setSpan(new ForegroundColorSpan(Color.RED),0,(jdata.get("stderr").toString().length()-1), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            ShowOutPut(spannableString.toString());
-                        }else{
-                            ShowOutPut(responseBody.toString());
+
+
+                        if (!language_id.equals("4") && !language_id.equals("10")) {
+                            Log.d("myapp", "response 1");
+
+                            if (!jdata.get("stdout").equals("") && !jdata.get("stdout").equals("null") && !jdata.get("stdout").equals(null)) {
+                                ShowOutPut(jdata.get("stdout").toString());
+                            } else if (!jdata.get("stderr").equals("") && !jdata.get("stderr").equals("null") && !jdata.get("stderr").equals(null)) {
+                                SpannableString spannableString = new SpannableString(jdata.get("stderr").toString());
+                                spannableString.setSpan(new ForegroundColorSpan(Color.RED), 0, (jdata.get("stderr").toString().length() - 1), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                ShowOutPut(spannableString.toString());
+                            } else {
+                                ShowOutPut(responseBody.toString());
+                            }
+
+                        } else {
+                            Log.d("myapp", "response 2");
+                            if (!jdata.get("stdout").equals("") && !jdata.get("stdout").equals("null") && !jdata.get("stdout").equals(null)) {
+                                ShowOutPut(jdata.get("stdout").toString());
+                            } else if (!jdata.get("compile_output").equals("") && !jdata.get("compile_output").equals("null") && !jdata.get("compile_output").equals(null)) {
+                                Log.d("myapp", "response 3");
+                                SpannableString spannableString = new SpannableString(jdata.get("compile_output").toString());
+                                spannableString.setSpan(new ForegroundColorSpan(Color.RED), 0, (jdata.get("compile_output").toString().length() - 1), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                ShowOutPut(spannableString.toString());
+                            } else {
+                                ShowOutPut(responseBody.toString());
+                            }
+
                         }
 
 
@@ -298,17 +314,14 @@ public class MainActivity extends AppCompatActivity implements AccessoryView.IAc
                 String str = editText.getText().toString();
 
 
-                Log.d("IDE", "afterTextChanged: "+language);
+                Log.d("IDE", "afterTextChanged: " + language);
                 int po = editText.getSelectionStart();
                 SpannableString ss = new HighLightCode().setHighLight(str, language, cn);
                 editText.setText(ss);
 
-        //get cursor
+                //get cursor
                 editText.setSelection(po);//set cursor
                 editText.addTextChangedListener(this);
-
-
-
 
 
             }
